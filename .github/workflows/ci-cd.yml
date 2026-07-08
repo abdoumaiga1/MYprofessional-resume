@@ -1,19 +1,4 @@
-name: Build And Push to ECR
 
-on:
-  push:
-    branches:
-      - main
-
-permissions:
-  id-token: write
-  contents: read
-
-jobs:
-  build_scan:
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Checkout the Code
         uses: actions/checkout@v4
 
@@ -41,4 +26,4 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         run: |
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          
+          name: Build And Push to ECR
