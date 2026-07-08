@@ -41,3 +41,4 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         run: |
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          
