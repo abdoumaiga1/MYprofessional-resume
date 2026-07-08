@@ -1,12 +1,27 @@
 
+      name: Build And Push to ECR
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build_scan:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Checkout the Code
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
@@ -16,7 +31,7 @@
       - name: Build Docker Image
         env:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-          ECR_REPOSITORY: ${{ secrets.AWS_ROLE}}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
 
@@ -26,4 +41,3 @@
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         run: |
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          name: Build And Push to ECR
