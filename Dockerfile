@@ -1,5 +1,5 @@
 FROM httpd 
-RUN apt update
-RUN apt install nano vim -y
+RUN yum update
+RUN yum install nano vim -y
 COPY ./index.html /usr/local/apache2/htdocs/
 EXPOSE 85
