@@ -24,12 +24,12 @@ jobs:
                 severity: HIGH,CRITICAL
                 exit-code: 0
             - name: Build Docker Image
-              run: docker build -t ${{ secrets.ECR_REPO }}/my-repo:latest .
+              run: docker build -t ${{ secrets.ECR_REPOSITORY }}/my-repo:latest .
             
             - name: Scan image with Trivy 
               uses: aquasecurity/trivy-action@v0.36.0
               with: 
-                image-ref: ${{ secrets.ECR_REPO }}/my-repo:latest
+                image-ref: ${{ secrets.ECR_REPOSITORY}}/my-repo:latest
                 format: table 
                 exit-code: 0
                 ignore-unfixed: true 
@@ -44,7 +44,7 @@ jobs:
               uses: aws-actions/amazon-ecr-login@v2
               
             - name: Push Image to Ecr
-              run: docker push ${{ secrets.ECR_REPO }}/my-repo:latest
+              run: docker push ${{ secrets.ECR_REPOS}}/my-repo:latest
 
     Deploy_to_ecs:
         needs: build_scan
